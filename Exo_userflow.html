@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Userflow - Commander un Repas | Le Bon Goût</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .node {
+            transition: all 0.3s ease;
+        }
+        
+        .node:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .arrow {
+            stroke: #4a5568;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .decision-line {
+            stroke: #ed8936;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        
+        .error-line {
+            stroke: #f56565;
+            stroke-width: 2;
+            stroke-dasharray: 3,3;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Userflow Complet : Commander un Repas</h1>
+                    <p class="text-gray-600 text-lg">Restaurant "Le Bon Goût" - Parcours transactionnel avec alternatives et décisions</p>
+                </div>
+                <div class="text-right">
+                    <div class="bg-purple-100 text-purple-800 px-4 py-2 rounded-lg font-semibold mb-2">CAS PRATIQUE 4</div>
+                    <div class="text-sm text-gray-500">CONCEPTION WEB IDF</div>
+                </div>
+            </div>
+            
+            <!-- Légende -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <h3 class="font-semibold text-gray-900 mb-4">📌 Légende des symboles</h3>
+                <div class="grid grid-cols-5 gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-12 h-12 rounded-full bg-green-500 border-4 border-green-600 flex items-center justify-center text-white font-bold">⭕</div>
+                        <span class="text-sm">Début/Fin</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-20 h-12 bg-blue-500 border-2 border-blue-600 rounded flex items-center justify-center text-white text-xs font-semibold">Écran</div>
+                        <span class="text-sm">Page/Écran</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg width="50" height="50">
+                            <polygon points="25,5 45,25 25,45 5,25" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                        </svg>
+                        <span class="text-sm">Décision</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-20 h-10 bg-gray-200 border-2 border-gray-400 rounded-full flex items-center justify-center text-gray-700 text-xs font-semibold">Action</div>
+                        <span class="text-sm">Processus</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-20 h-12 bg-red-100 border-2 border-red-500 rounded flex items-center justify-center text-red-700 text-xs font-bold">⚠️ Erreur</div>
+                        <span class="text-sm">État d'erreur</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Userflow Diagram -->
+        <div class="bg-white rounded-2xl shadow-2xl p-12 overflow-x-auto">
+            <div style="min-width: 1200px;">
+                
+                <!-- PHASE 1: DÉCOUVERTE -->
+                <div class="mb-16">
+                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-lg inline-block mb-8 font-bold text-lg">
+                        PHASE 1 : DÉCOUVERTE
+                    </div>
+                    
+                    <div class="flex items-center gap-6">
+                        <!-- Start -->
+                        <div class="flex flex-col items-center">
+                            <div class="node w-24 h-24 rounded-full bg-green-500 border-4 border-green-600 flex items-center justify-center shadow-xl">
+                                <span class="text-white text-3xl font-bold">🏁</span>
+                            </div>
+                            <p class="text-sm font-semibold text-gray-700 mt-2 text-center">DÉBUT</p>
+                        </div>
+
+                        <div class="text-4xl text-gray-400">→</div>
+
+                        <!-- Accueil -->
+                        <div class="flex flex-col items-center">
+                            <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 200px;">
+                                <div class="text-white text-2xl mb-2">🏠</div>
+                                <p class="text-white font-bold text-lg">Page d'Accueil</p>
+                                <p class="text-blue-100 text-xs mt-2">Hero, menu rapide, avis, promotions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHASE 2: EXPLORATION DU MENU -->
+                <div class="mb-16">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg inline-block mb-8 font-bold text-lg">
+                        PHASE 2 : EXPLORATION DU MENU
+                    </div>
+                    
+                    <div class="flex flex-col gap-8">
+                        <!-- Menu principal -->
+                        <div class="flex items-center gap-6">
+                            <div class="flex flex-col items-center">
+                                <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 200px;">
+                                    <div class="text-white text-2xl mb-2">📖</div>
+                                    <p class="text-white font-bold text-lg">Menu Complet</p>
+                                    <p class="text-blue-100 text-xs mt-2">Grille plats, filtres, recherche</p>
+                                </div>
+                            </div>
+
+                            <div class="text-4xl text-gray-400">→</div>
+
+                            <!-- Decision: Connecté ? -->
+                            <div class="flex flex-col items-center">
+                                <svg width="120" height="120">
+                                    <polygon points="60,10 110,60 60,110 10,60" fill="#f59e0b" stroke="#d97706" stroke-width="3"/>
+                                    <text x="60" y="55" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Utilisateur</text>
+                                    <text x="60" y="70" text-anchor="middle" fill="white" font-size="12" font-weight="bold">connecté ?</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Branches OUI/NON -->
+                        <div class="ml-64 grid grid-cols-2 gap-8">
+                            <!-- Branche OUI -->
+                            <div class="border-l-4 border-green-500 pl-6">
+                                <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-bold mb-4">✓ OUI</div>
+                                <div class="node bg-blue-400 border-3 border-blue-500 rounded-xl p-4 shadow-lg">
+                                    <p class="text-white font-bold">Menu Personnalisé</p>
+                                    <p class="text-blue-100 text-xs mt-2">Favoris, historique, recommandations</p>
+                                </div>
+                            </div>
+
+                            <!-- Branche NON -->
+                            <div class="border-l-4 border-red-500 pl-6">
+                                <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg inline-block font-bold mb-4">✗ NON</div>
+                                <div class="flex flex-col gap-4">
+                                    <div class="node bg-blue-400 border-3 border-blue-500 rounded-xl p-4 shadow-lg">
+                                        <p class="text-white font-bold">Menu Standard</p>
+                                        <p class="text-blue-100 text-xs mt-2">Catalogue complet sans personnalisation</p>
+                                    </div>
+                                    
+                                    <!-- Sous-décision: Créer compte ? -->
+                                    <div class="flex items-center gap-3">
+                                        <svg width="80" height="80">
+                                            <polygon points="40,5 75,40 40,75 5,40" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                                            <text x="40" y="35" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Créer</text>
+                                            <text x="40" y="48" text-anchor="middle" fill="white" font-size="9" font-weight="bold">compte?</text>
+                                        </svg>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="bg-green-50 border-2 border-green-400 rounded-lg p-2 text-xs">
+                                                <span class="font-bold text-green-700">OUI →</span> <span class="text-gray-700">Formulaire inscription</span>
+                                            </div>
+                                            <div class="bg-gray-50 border-2 border-gray-400 rounded-lg p-2 text-xs">
+                                                <span class="font-bold text-gray-700">NON →</span> <span class="text-gray-700">Continuer en invité</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Convergence -->
+                        <div class="flex justify-center mt-6">
+                            <div class="text-2xl text-gray-400">↓</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHASE 3: SÉLECTION PRODUIT -->
+                <div class="mb-16">
+                    <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg inline-block mb-8 font-bold text-lg">
+                        PHASE 3 : SÉLECTION PRODUIT
+                    </div>
+                    
+                    <div class="flex flex-col items-center gap-6">
+                        <!-- Fiche produit -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 220px;">
+                            <div class="text-white text-2xl mb-2">🍝</div>
+                            <p class="text-white font-bold text-lg">Fiche Produit</p>
+                            <p class="text-blue-100 text-xs mt-2">Photo HD, description, allergènes, avis, prix</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Decision: Personnalisation -->
+                        <svg width="120" height="120">
+                            <polygon points="60,10 110,60 60,110 10,60" fill="#f59e0b" stroke="#d97706" stroke-width="3"/>
+                            <text x="60" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Personnaliser</text>
+                            <text x="60" y="70" text-anchor="middle" fill="white" font-size="11" font-weight="bold">le plat ?</text>
+                        </svg>
+
+                        <!-- Branches personnalisation -->
+                        <div class="grid grid-cols-2 gap-12 w-full">
+                            <div class="text-center">
+                                <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-bold mb-4">✓ OUI</div>
+                                <div class="node bg-purple-400 border-3 border-purple-500 rounded-xl p-4 shadow-lg">
+                                    <p class="text-white font-bold">Options Personnalisation</p>
+                                    <p class="text-purple-100 text-xs mt-2">Ingrédients, sauces, cuisson, portions</p>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg inline-block font-bold mb-4">✗ NON</div>
+                                <div class="node bg-gray-200 border-3 border-gray-400 rounded-full p-4 shadow-lg">
+                                    <p class="text-gray-700 font-bold text-sm">Direct au panier</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Ajout au panier -->
+                        <div class="node bg-gray-300 border-3 border-gray-400 rounded-full px-8 py-4 shadow-lg">
+                            <p class="text-gray-800 font-bold text-lg">➕ Ajouter au Panier</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHASE 4: PANIER & VALIDATION -->
+                <div class="mb-16">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg inline-block mb-8 font-bold text-lg">
+                        PHASE 4 : PANIER & VALIDATION
+                    </div>
+                    
+                    <div class="flex flex-col items-center gap-6">
+                        <!-- Panier -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 220px;">
+                            <div class="text-white text-2xl mb-2">🛒</div>
+                            <p class="text-white font-bold text-lg">Panier</p>
+                            <p class="text-blue-100 text-xs mt-2">Récapitulatif, quantités, total provisoire</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Decision: Code promo -->
+                        <div class="flex items-center gap-6">
+                            <svg width="100" height="100">
+                                <polygon points="50,5 95,50 50,95 5,50" fill="#f59e0b" stroke="#d97706" stroke-width="3"/>
+                                <text x="50" y="45" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Code</text>
+                                <text x="50" y="58" text-anchor="middle" fill="white" font-size="10" font-weight="bold">promo ?</text>
+                            </svg>
+                            
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-green-100 text-green-800 px-3 py-1 rounded font-bold text-sm">✓ VALIDE</div>
+                                    <div class="bg-green-50 border-2 border-green-400 rounded-lg px-4 py-2">
+                                        <p class="text-green-700 font-semibold text-sm">Prix réduit appliqué</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-red-100 text-red-800 px-3 py-1 rounded font-bold text-sm">✗ INVALIDE</div>
+                                    <div class="node bg-red-100 border-2 border-red-500 rounded-lg px-4 py-3 shadow-lg">
+                                        <p class="text-red-700 font-bold text-sm">⚠️ Code promo invalide</p>
+                                        <p class="text-red-600 text-xs mt-1">Message d'erreur + Retour au panier</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Choix livraison -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 220px;">
+                            <div class="text-white text-2xl mb-2">🚚</div>
+                            <p class="text-white font-bold text-lg">Choix Livraison/Retrait</p>
+                            <p class="text-blue-100 text-xs mt-2">Livraison à domicile ou Click & Collect</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Informations livraison -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 220px;">
+                            <div class="text-white text-2xl mb-2">📍</div>
+                            <p class="text-white font-bold text-lg">Informations Livraison</p>
+                            <p class="text-blue-100 text-xs mt-2">Adresse, téléphone, instructions</p>
+                        </div>
+
+                        <!-- Cas d'erreur: Hors zone -->
+                        <div class="ml-64 node bg-red-100 border-2 border-red-500 rounded-lg p-4 shadow-lg" style="width: 250px;">
+                            <p class="text-red-700 font-bold">⚠️ Adresse hors zone de livraison</p>
+                            <p class="text-red-600 text-xs mt-2">Proposition : Click & Collect ou modification adresse</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHASE 5: PAIEMENT -->
+                <div class="mb-16">
+                    <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-6 py-3 rounded-lg inline-block mb-8 font-bold text-lg">
+                        PHASE 5 : PAIEMENT
+                    </div>
+                    
+                    <div class="flex flex-col items-center gap-6">
+                        <!-- Choix paiement -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 220px;">
+                            <div class="text-white text-2xl mb-2">💳</div>
+                            <p class="text-white font-bold text-lg">Choix Mode de Paiement</p>
+                            <p class="text-blue-100 text-xs mt-2">CB, PayPal, Apple Pay, Google Pay</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Processus paiement -->
+                        <div class="node bg-gray-300 border-3 border-gray-400 rounded-full px-8 py-4 shadow-lg">
+                            <p class="text-gray-800 font-bold text-lg pulse">🔒 Traitement paiement sécurisé...</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Decision: Paiement validé -->
+                        <svg width="120" height="120">
+                            <polygon points="60,10 110,60 60,110 10,60" fill="#f59e0b" stroke="#d97706" stroke-width="3"/>
+                            <text x="60" y="55" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Paiement</text>
+                            <text x="60" y="70" text-anchor="middle" fill="white" font-size="11" font-weight="bold">validé ?</text>
+                        </svg>
+
+                        <!-- Branches paiement -->
+                        <div class="grid grid-cols-2 gap-12 w-full">
+                            <!-- Succès -->
+                            <div class="text-center">
+                                <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-block font-bold mb-4">✓ OUI - SUCCÈS</div>
+                                <div class="node bg-green-500 border-3 border-green-600 rounded-xl p-6 shadow-xl">
+                                    <div class="text-white text-3xl mb-2">✅</div>
+                                    <p class="text-white font-bold text-lg">Confirmation Commande</p>
+                                    <p class="text-green-100 text-xs mt-2">Numéro commande, récapitulatif, délai estimé</p>
+                                </div>
+                            </div>
+
+                            <!-- Échec -->
+                            <div class="text-center">
+                                <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg inline-block font-bold mb-4">✗ NON - ÉCHEC</div>
+                                <div class="node bg-red-100 border-3 border-red-500 rounded-xl p-6 shadow-xl">
+                                    <div class="text-red-700 text-3xl mb-2">⚠️</div>
+                                    <p class="text-red-700 font-bold text-lg">Erreur Paiement</p>
+                                    <p class="text-red-600 text-xs mt-2">Carte refusée, fonds insuffisants, erreur technique</p>
+                                </div>
+                                <div class="mt-4 text-sm text-gray-600">
+                                    <p class="font-semibold">↺ Retour à : Choix mode de paiement</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHASE 6: POST-COMMANDE -->
+                <div class="mb-8">
+                    <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white px-6 py-3 rounded-lg inline-block mb-8 font-bold text-lg">
+                        PHASE 6 : POST-COMMANDE
+                    </div>
+                    
+                    <div class="flex flex-col items-center gap-6">
+                        <!-- Email confirmation -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 240px;">
+                            <div class="text-white text-2xl mb-2">📧</div>
+                            <p class="text-white font-bold text-lg">Email de Confirmation</p>
+                            <p class="text-blue-100 text-xs mt-2">Récapitulatif complet, facture PDF, infos contact</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Suivi temps réel -->
+                        <div class="node bg-blue-500 border-3 border-blue-600 rounded-xl p-6 shadow-xl text-center" style="width: 240px;">
+                            <div class="text-white text-2xl mb-2">📍</div>
+                            <p class="text-white font-bold text-lg">Suivi Temps Réel</p>
+                            <p class="text-blue-100 text-xs mt-2">Statut : Préparation → En cours de livraison → Livrée</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Notification livraison -->
+                        <div class="node bg-purple-500 border-3 border-purple-600 rounded-xl p-6 shadow-xl text-center" style="width: 240px;">
+                            <div class="text-white text-2xl mb-2">🔔</div>
+                            <p class="text-white font-bold text-lg">Notification Livraison</p>
+                            <p class="text-purple-100 text-xs mt-2">SMS + Push : "Votre commande est arrivée !"</p>
+                        </div>
+
+                        <div class="text-3xl text-gray-400">↓</div>
+
+                        <!-- Fin -->
+                        <div class="node w-32 h-32 rounded-full bg-green-500 border-4 border-green-600 flex flex-col items-center justify-center shadow-xl">
+                            <span class="text-white text-4xl font-bold mb-1">🎉</span>
+                            <span class="text-white font-bold text-sm">FIN</span>
+                        </div>
+
+                        <!-- Option: Laisser un avis -->
+                        <div class="mt-6 bg-yellow-50 border-2 border-yellow-400 rounded-xl p-6 text-center" style="width: 280px;">
+                            <p class="text-yellow-800 font-bold mb-2">💬 Optionnel : Laisser un avis</p>
+                            <p class="text-yellow-700 text-xs">Email J+1 : "Comment était votre repas ?"</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer avec statistiques -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mt-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">📊 Statistiques du Userflow</h3>
+            <div class="grid grid-cols-4 gap-6">
+                <div class="bg-blue-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">15</div>
+                    <div class="text-sm text-gray-600">Écrans principaux</div>
+                </div>
+                <div class="bg-orange-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-orange-600 mb-2">5</div>
+                    <div class="text-sm text-gray-600">Points de décision</div>
+                </div>
+                <div class="bg-red-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-red-600 mb-2">3</div>
+                    <div class="text-sm text-gray-600">États d'erreur</div>
+                </div>
+                <div class="bg-green-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-green-600 mb-2">8</div>
+                    <div class="text-sm text-gray-600">Chemins alternatifs</div>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <h4 class="font-bold text-gray-900 mb-4">✅ Points de validation</h4>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3">
+                        <span class="text-green-600 text-xl">✓</span>
+                        <span class="text-gray-700">Tous les écrans du parcours d'achat présents</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-green-600 text-xl">✓</span>
+                        <span class="text-gray-700">Points de décision avec chemins OUI/NON</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-green-600 text-xl">✓</span>
+                        <span class="text-gray-700">États d'erreur avec possibilité de retour</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-green-600 text-xl">✓</span>
+                        <span class="text-gray-700">Cohérent avec le User Journey Map</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-green-600 text-xl">✓</span>
+                        <span class="text-gray-700">Symboles corrects et uniformes</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-green-600 text-xl">✓</span>
+                        <span class="text-gray-700">Annotations claires sur les décisions</span>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!-- Download button -->
+        <div class="text-center mt-8">
+            <button onclick="window.print()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all transform hover:scale-105">
+                📥 Télécharger en PDF (Ctrl+P)
+            </button>
+        </div>
+    </div>
+
+    <!-- SVG Definitions -->
+    <svg width="0" height="0">
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#4a5568" />
+            </marker>
+        </defs>
+    </svg>
+</body>
+</html>
